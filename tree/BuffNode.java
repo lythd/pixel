@@ -99,6 +99,10 @@ public class BuffNode {
 		return data;
 	}
 	
+	public String exportedData() {
+		return data;
+	}
+	
 	public DefaultMutableTreeNode node() {
 		return node;
 	}
@@ -147,6 +151,10 @@ public class BuffNode {
 	
 	public void setData(String data) {
 		this.data = data;
+	}
+	
+	public void exportData() {
+		exportedData();
 	}
 	
 	public void setNode(DefaultMutableTreeNode node) {
@@ -215,6 +223,15 @@ public class BuffNode {
 		parent.children.add(this);
 	}
 	
+	public void addParent(BuffNode parent, boolean patch) {
+		if(this.parent != null) {
+			this.parent.removeChild(this);
+			if(patch) this.parent.patchChildren();
+		}
+		this.parent = parent;
+		parent.children.add(this);
+	}
+	
 	public void addChild(BuffNode child) {
 		child.parent = this;
 		children.add(child);
@@ -261,6 +278,11 @@ public class BuffNode {
 		patchChildren();
 		return this;
 	}
+
+	public BuffNode withNullify() {
+		nullify();
+		return this;
+	}
 	
 	public BuffNode withFile(File file) {
 		addFile(file);
@@ -288,7 +310,7 @@ public class BuffNode {
 	}
 	
 	public BuffNode withParent(BuffNode parent) {
-		addParent(parent);
+		addParent(parent, true);
 		return this;
 	}
 	
@@ -335,7 +357,7 @@ public class BuffNode {
 	}	
 //	Child Get Functions
 	
-	public int getIndex(BuffNode child) {
+	public int index(BuffNode child) {
 		for(int i = 0; i < childrenCount(); i++) if(children.get(i) == child) return i;
 		return -1;
 	}
@@ -464,4 +486,13 @@ public class BuffNode {
 			children.set(children.size(), null);
 		}
 	}
+	
+	public void nullify() {
+		this.children = null;
+		this.data = null;
+		this.file = null;
+		this.node = null;
+		this.parent = null;
+		this.type = null;
+	}	
 }

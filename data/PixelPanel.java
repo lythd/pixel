@@ -10,15 +10,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-import functions.StandardLibrary;
 
 public class PixelPanel extends JPanel {
 
 
 	private static final long serialVersionUID = 1L;
-	
+	private JButton conBtn;
+	private JTextArea codeArea = new JTextArea();
+
 	public PixelPanel() {
 		Dimension size = getPreferredSize();
 		size.width = 450;
@@ -26,16 +25,13 @@ public class PixelPanel extends JPanel {
 		setPreferredSize(size);
 		setBorder(BorderFactory.createTitledBorder("Pixel Code"));
 		
-		final JTextArea codeArea = new JTextArea();
-		final JTextField codeField = new JTextField(30);
 		codeArea.setRows(15);
 		codeArea.setColumns(20);
 		
-		JButton conBtn = new JButton("Convert");
+		conBtn = new JButton("Save");
 		conBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				codeField.setText(StandardLibrary.mTell.convert(codeArea.getText()));
 			}
  		});
 		setLayout(new GridBagLayout());
@@ -52,10 +48,9 @@ public class PixelPanel extends JPanel {
 		gc.gridx = 0;
 		gc.gridy = 1;
 		add(conBtn, gc);
-		
-		gc.weighty = 1;
-		gc.gridx = 0;
-		gc.gridy = 2;
-		add(codeField, gc);
+	}
+	
+	public void giveCode(String code) {
+		codeArea.setText(code);
 	}
 }
